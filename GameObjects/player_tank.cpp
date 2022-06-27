@@ -1,35 +1,43 @@
 #include "player_tank.h"
 
 QPixmap PlayerTank::GetPixmap() const {
-  if(!is_alive_) {
+  if (!is_alive_) {
     return QPixmap{};
   }
-  return QPixmap{"blue_soldier"};
+  return QPixmap{"hull"};
 }
 
 void PlayerTank::Update(int millis) {
-  speed_ = 130;
-  if(!is_alive_) {
+  if (!is_alive_) {
     return;
   }
-  Vec2f dir_vec = {0,0};
-  if(up_pressed_) {
-    dir_vec += Vec2f(0,-1);
+  double angle = vector_to_mouse_.AngleBetween(turret_orientation_);
+  double angle_to_rotate = kTurretAngularRotatingSpeed / 360 * 2 * M_PI / 1'000 * millis;
+  turret_orientation_.Rotate(angle > 0 ? angle_to_rotate : -angle_to_rotate);
+  if (up_pressed_) {
+    speed_ += kForwardAcceleration * millis / 1000;
+    if(speed_ > kMaxSpeed / 3.6) {
+      speed_ = kMaxSpeed;
+    }
   }
-  if(down_pressed_) {
-    dir_vec += Vec2f(0,1);
+  if (down_pressed_) {
+    speed_ -= kForwardAcceleration * millis / 1000;
+    if(speed_ < -kMaxSpeed / 3.6) {
+      speed_ = -kMaxSpeed;
+    }
   }
-  if(left_pressed_) {
-    dir_vec += Vec2f(-1,0);
+  if (left_pressed_) {
+    orientation_.Rotate(-kHullAngularRotatingSpeed / 360 * 2 * M_PI * millis / 1000);
   }
-  if(right_pressed_) {
-    dir_vec += Vec2f(1,0);
+  if (right_pressed_) {
+    orientation_.Rotate(kHullAngularRotatingSpeed / 360 * 2 * M_PI * millis / 1000);
   }
-  position_ += dir_vec * speed_ * (static_cast<double>(millis) / 1000);
-  if(is_shooting_) {
+
+  position_ += orientation_ * speed_ * (static_cast<double>(millis) / 1000);
+  if (is_shooting_) {
     if (!recoil_timer.isActive()) {
-      recoil_timer.start(500);
-      Shoot(position_ + orientation_ * 20, orientation_);
+      recoil_timer.start(kRecoilTime * 1000);
+      Shoot(position_ + turret_orientation_ * 20, turret_orientation_);
     }
   }
 }
@@ -50,7 +58,6 @@ void PlayerTank::keyPressEvent(QKeyEvent* event) {
   }
 }
 
-
 void PlayerTank::keyReleaseEvent(QKeyEvent* event) {
   int key = event->key();
   if (key == Qt::Key_W) {
@@ -68,14 +75,14 @@ void PlayerTank::keyReleaseEvent(QKeyEvent* event) {
 }
 
 void PlayerTank::mousePressEvent(QMouseEvent* event) {
-  if(event->button() == Qt::LeftButton) {
+  if (event->button() == Qt::LeftButton) {
     is_shooting_ = true;
   }
   mouseMoveEvent(event);
 }
 
 void PlayerTank::mouseReleaseEvent(QMouseEvent* event) {
-  if(event->button() == Qt::LeftButton) {
+  if (event->button() == Qt::LeftButton) {
     is_shooting_ = false;
   }
   mouseMoveEvent(event);
@@ -84,8 +91,7 @@ void PlayerTank::mouseReleaseEvent(QMouseEvent* event) {
 void PlayerTank::mouseMoveEvent(QMouseEvent* event) {
   int mouse_x = event->pos().x();
   int mouse_y = event->pos().y();
-  orientation_.Set(mouse_x - position_.GetX(), mouse_y-position_.GetY());
-  orientation_.Normalize();
+  vector_to_mouse_ = Vec2f(mouse_x - position_.GetX(), mouse_y - position_.GetY());
 }
 
 PlayerTank::PlayerTank(const Vec2f& position) : Tank(Tank::player, position) {}

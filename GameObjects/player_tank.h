@@ -23,6 +23,7 @@ class PlayerTank : public Tank {
   bool down_pressed_ = false;
   bool left_pressed_ = false;
   bool right_pressed_ = false;
+  Vec2f vector_to_mouse_;
 };
 
 

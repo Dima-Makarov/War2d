@@ -16,8 +16,9 @@ Tank::Tank(Tank::Team team, const Vec2f& position)
     : GameObject(position, Vec2f(1,0)),
       team_(team),
       hp_(100),
-      speed_(50),
-      is_alive_(true) {
+      speed_(0),
+      turret_orientation_(orientation_),
+      is_alive_(true){
   recoil_timer.setSingleShot(true);
 }
 
@@ -26,4 +27,8 @@ void Tank::TakeDamage() {
   if(hp_ < 0) {
     is_alive_ = false;
   }
+}
+
+Vec2f Tank::GetTurretOrientation() {
+  return turret_orientation_;
 }
