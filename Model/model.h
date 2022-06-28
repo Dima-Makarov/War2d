@@ -4,6 +4,7 @@
 #include <QKeyEvent>
 #include <GameObjects/plane.h>
 #include "GameObjects/tank.h"
+#include "GameObjects/ship.h"
 #include "weapon_handler.h"
 
 class Model : public QObject {
@@ -23,7 +24,9 @@ class Model : public QObject {
   WeaponHandler weapon_handler_;
   Tank tank_;
   Plane plane_;
+  Ship ship_;
   std::vector<Tank*> tanks_;
   std::vector<Plane*> planes_;
+  std::vector<Ship*> ships_;
   std::vector<Bullet*> bullets_;
 };

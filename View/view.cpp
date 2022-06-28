@@ -16,14 +16,21 @@ void View::Update(QPainter* painter) {
     buffer_painter.translate(pos_x, pos_y);
     buffer_painter.rotate(game_object->GetOrientation().GetAngleDegrees());
     QPixmap pixmap = game_object->GetPixmap();
-    auto* tank = dynamic_cast<Tank*>(game_object);
     int pix_width = pixmap.width();
     int pix_height = pixmap.height();
     buffer_painter.drawPixmap(-pix_width / 2, -pix_height / 2, pixmap);
+    auto* tank = dynamic_cast<Tank*>(game_object);
     buffer_painter.rotate(-game_object->GetOrientation().GetAngleDegrees());
     if(tank) {
       buffer_painter.rotate(tank->GetTurretOrientation().GetAngleDegrees());
       buffer_painter.drawPixmap(-7,-7,QPixmap("turret"));
+      buffer_painter.rotate(-tank->GetTurretOrientation().GetAngleDegrees());
+    }
+    auto* ship = dynamic_cast<Ship*>(game_object);
+    if(ship) {
+      buffer_painter.rotate(ship->GetTurretOrientation().GetAngleDegrees());
+      buffer_painter.drawPixmap(-7,-7,QPixmap("turret"));
+      buffer_painter.rotate(-ship->GetTurretOrientation().GetAngleDegrees());
     }
     buffer_painter.restore();
   }
