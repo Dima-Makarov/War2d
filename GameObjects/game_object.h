@@ -1,7 +1,7 @@
 #pragma once
 
 #include <QObject>
-#include "Model/vec2f.h"
+#include "Utils/vec2f.h"
 
 class GameObject : public QObject {
  Q_OBJECT

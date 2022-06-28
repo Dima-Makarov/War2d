@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObjects/game_object.h"
+#include "Utils/pixmap_loader.h"
 #include <QKeyEvent>
 #include <QMouseEvent>
 #include <QTimer>
