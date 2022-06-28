@@ -26,10 +26,10 @@ class Tank : public GameObject {
   void Shoot(Vec2f position, Vec2f orientation);
 
  protected:
-  static constexpr double kHullAngularRotatingSpeed = 40; // deg/s
-  static constexpr double kTurretAngularRotatingSpeed = 60; // deg/s
-  static constexpr double kForwardAcceleration = 6; // m/s^2
-  static constexpr double kMaxSpeed = 50; // km/h
+  static constexpr double kHullAngularRotatingSpeed = 40.0 / 360 * 2 * M_PI; // rad/s
+  static constexpr double kTurretAngularRotatingSpeed = 60.0 / 360 * 2 * M_PI; // rad/s
+  static constexpr double kForwardAcceleration = 10; // m/s^2
+  static constexpr double kMaxSpeed = 50/3.6; // m/s
   static constexpr double kRecoilTime = 1; // s
 
   QTimer recoil_timer;
