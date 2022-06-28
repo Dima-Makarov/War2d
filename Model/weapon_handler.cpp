@@ -2,8 +2,11 @@
 #include <iostream>
 #include "weapon_handler.h"
 
-WeaponHandler::WeaponHandler(std::vector<Tank*>* tanks,std::vector<Plane*>* planes, std::vector<Bullet*>* bullets)
-    : QObject(nullptr), tanks_(tanks), planes_(planes), bullets_(bullets) {
+WeaponHandler::WeaponHandler(std::vector<Tank*>* tanks,
+                             std::vector<Plane*>* planes,
+                             std::vector<Ship*>* ships,
+                             std::vector<Bullet*>* bullets)
+    : QObject(nullptr), tanks_(tanks), planes_(planes), ships_(ships), bullets_(bullets) {
 }
 
 void WeaponHandler::Update() {
@@ -33,8 +36,20 @@ void WeaponHandler::Update() {
         }
       }
     }
+    for (auto ship : *ships_) {
+      Vec2f b_pos = (*bullets_)[i]->GetPosition();
+      Vec2f s_pos = ship->GetPosition();
+      if (std::hypot(b_pos.GetX() - s_pos.GetX(), b_pos.GetY() - s_pos.GetY()) < soldier_radius) {
+        if (ship->IsAlive()) {
+          ship->TakeDamage();
+          bullets_->erase(bullets_->begin() + i);
+          i--;
+          break;
+        }
+      }
+    }
   }
-  if(bullets_->size() > 50) {
+  if (bullets_->size() > 50) {
     for (size_t i = 0 ; i < bullets_->size() ; i++) {
       Vec2f pos = (*bullets_)[i]->GetPosition();
       if (pos.GetX() > 2000
@@ -59,5 +74,9 @@ void WeaponHandler::Connect() {
   }
   for (auto plane : *planes_) {
     connect(plane, &Plane::Shoot, this, &WeaponHandler::AddBullet, Qt::DirectConnection);
+  }
+
+  for (auto ship : *ships_) {
+    connect(ship, &Ship::Shoot, this, &WeaponHandler::AddBullet, Qt::DirectConnection);
   }
 }
