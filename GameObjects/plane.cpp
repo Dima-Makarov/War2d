@@ -1,23 +1,14 @@
 #include "plane.h"
 
 QPixmap Plane::GetPixmap() const {
-  if(!is_alive_) {
+  if (!is_alive_) {
     return QPixmap();
   }
   return QPixmap("plane");
 }
 
-Plane::Plane(const Vec2f& position) : GameObject(position, Vec2f(1,0)),
-                                                  hp_(100),
-                                                  speed_(100) {
-  recoil_timer.setSingleShot(true);
-}
-
-void Plane::TakeDamage() {
-  hp_ -= 21;
-  if(hp_ < 0) {
-    is_alive_ = false;
-  }
+Plane::Plane(const Vec2f& position, const Vec2f& orientation) : Vehicle(position, orientation) {
+  speed_ = kMaxSpeed;
 }
 
 void Plane::Update(int millis) {
@@ -43,56 +34,4 @@ void Plane::Update(int millis) {
       Shoot(position_ + orientation_ * 20, orientation_);
     }
   }
-}
-
-void Plane::keyPressEvent(QKeyEvent* event) {
-  int key = event->key();
-  if (key == Qt::Key_W) {
-    up_pressed_ = true;
-  }
-  if (key == Qt::Key_S) {
-    down_pressed_ = true;
-  }
-  if (key == Qt::Key_A) {
-    left_pressed_ = true;
-  }
-  if (key == Qt::Key_D) {
-    right_pressed_ = true;
-  }
-}
-
-void Plane::keyReleaseEvent(QKeyEvent* event) {
-  int key = event->key();
-  if (key == Qt::Key_W) {
-    up_pressed_ = false;
-  }
-  if (key == Qt::Key_S) {
-    down_pressed_ = false;
-  }
-  if (key == Qt::Key_A) {
-    left_pressed_ = false;
-  }
-  if (key == Qt::Key_D) {
-    right_pressed_ = false;
-  }
-}
-
-void Plane::mousePressEvent(QMouseEvent* event) {
-  if (event->button() == Qt::LeftButton) {
-    is_shooting_ = true;
-  }
-}
-
-void Plane::mouseReleaseEvent(QMouseEvent* event) {
-  if (event->button() == Qt::LeftButton) {
-    is_shooting_ = false;
-  }
-}
-
-bool Plane::IsAlive() const {
-  return is_alive_;
-}
-
-double Plane::GetHp() const {
-  return hp_;
 }

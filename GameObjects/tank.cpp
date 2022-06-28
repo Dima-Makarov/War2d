@@ -1,11 +1,8 @@
 #include "tank.h"
 
-double Tank::GetHp() const {
-  return hp_;
-}
-
-bool Tank::IsAlive() const {
-  return is_alive_;
+Tank::Tank(const Vec2f& position, const Vec2f& orientation)
+    : Vehicle(position, orientation),
+      turret_orientation_(orientation_) {
 }
 
 QPixmap Tank::GetPixmap() const {
@@ -19,7 +16,9 @@ void Tank::Update(int millis) {
   if (!is_alive_) {
     return;
   }
-  double angle = vector_to_mouse_.AngleBetween(turret_orientation_);
+  Vec2f vector_to_mouse = Vec2f(position_.GetX() - mouse_coordinates_.x(),
+                                position_.GetY() - mouse_coordinates_.y());
+  double angle = vector_to_mouse.AngleBetween(turret_orientation_);
   double angle_to_rotate;
   if (std::abs(angle) > M_PI / 12) {
     angle_to_rotate = kTurretAngularRotatingSpeed / 1'000 * millis;
@@ -49,6 +48,7 @@ void Tank::Update(int millis) {
       }
     }
   }
+
   if (down_pressed_) {
     if (speed_ > 0) {
       speed_ -= kForwardAcceleration * millis / 1000;
@@ -60,10 +60,12 @@ void Tank::Update(int millis) {
       }
     }
   }
+
   if (left_pressed_) {
     orientation_.Rotate(-kHullAngularRotatingSpeed * millis / 1000);
     turret_orientation_.Rotate(-kHullAngularRotatingSpeed * millis / 1000);
   }
+
   if (right_pressed_) {
     orientation_.Rotate(kHullAngularRotatingSpeed * millis / 1000);
     turret_orientation_.Rotate(kHullAngularRotatingSpeed * millis / 1000);
@@ -75,74 +77,6 @@ void Tank::Update(int millis) {
       recoil_timer.start(kRecoilTime * 1000);
       Shoot(position_ + turret_orientation_ * 20, turret_orientation_);
     }
-  }
-}
-
-void Tank::keyPressEvent(QKeyEvent* event) {
-  int key = event->key();
-  if (key == Qt::Key_W) {
-    up_pressed_ = true;
-  }
-  if (key == Qt::Key_S) {
-    down_pressed_ = true;
-  }
-  if (key == Qt::Key_A) {
-    left_pressed_ = true;
-  }
-  if (key == Qt::Key_D) {
-    right_pressed_ = true;
-  }
-}
-
-void Tank::keyReleaseEvent(QKeyEvent* event) {
-  int key = event->key();
-  if (key == Qt::Key_W) {
-    up_pressed_ = false;
-  }
-  if (key == Qt::Key_S) {
-    down_pressed_ = false;
-  }
-  if (key == Qt::Key_A) {
-    left_pressed_ = false;
-  }
-  if (key == Qt::Key_D) {
-    right_pressed_ = false;
-  }
-}
-
-void Tank::mousePressEvent(QMouseEvent* event) {
-  if (event->button() == Qt::LeftButton) {
-    is_shooting_ = true;
-  }
-  mouseMoveEvent(event);
-}
-
-void Tank::mouseReleaseEvent(QMouseEvent* event) {
-  if (event->button() == Qt::LeftButton) {
-    is_shooting_ = false;
-  }
-  mouseMoveEvent(event);
-}
-
-void Tank::mouseMoveEvent(QMouseEvent* event) {
-  int mouse_x = event->pos().x();
-  int mouse_y = event->pos().y();
-  vector_to_mouse_ = Vec2f(mouse_x - position_.GetX(), mouse_y - position_.GetY());
-}
-
-Tank::Tank(const Vec2f& position)
-    : GameObject(position, Vec2f(1, 0)),
-      hp_(100),
-      speed_(0),
-      turret_orientation_(orientation_),
-      is_alive_(true) {
-  recoil_timer.setSingleShot(true);
-}
-
-void Tank::TakeDamage() {
-  hp_ -= 21;
-  if (hp_ < 0) {
-    is_alive_ = false;
   }
 }
 
