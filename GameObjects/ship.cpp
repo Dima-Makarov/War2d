@@ -9,7 +9,8 @@ QPixmap Ship::GetPixmap() const {
   if (!is_alive_) {
     return QPixmap{};
   }
-  return QPixmap{"ship"};
+  return PixmapLoader::Instance()->ship;
+
 }
 
 void Ship::Update(int millis) {

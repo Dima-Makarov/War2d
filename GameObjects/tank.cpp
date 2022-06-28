@@ -9,7 +9,7 @@ QPixmap Tank::GetPixmap() const {
   if (!is_alive_) {
     return QPixmap{};
   }
-  return QPixmap{"hull"};
+  return PixmapLoader::Instance()->tank;
 }
 
 void Tank::Update(int millis) {

@@ -4,7 +4,7 @@ QPixmap Plane::GetPixmap() const {
   if (!is_alive_) {
     return QPixmap();
   }
-  return QPixmap("plane");
+  return PixmapLoader::Instance()->plane;
 }
 
 Plane::Plane(const Vec2f& position, const Vec2f& orientation) : Vehicle(position, orientation) {
