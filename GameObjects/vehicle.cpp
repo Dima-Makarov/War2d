@@ -55,8 +55,8 @@ void Vehicle::mouseMoveEvent(QMouseEvent* event) {
   mouse_coordinates_ = QPoint(event->pos().x() ,event->pos().y());
 }
 
-void Vehicle::TakeDamage() {
-  hp_ -= 21;
+void Vehicle::TakeDamage(double damage) {
+  hp_ -= damage;
   if (hp_ < 0) {
     is_alive_ = false;
   }

@@ -11,7 +11,7 @@ class Vehicle : public GameObject {
   void Update(int millis) override = 0;
   double GetHp() const;
   bool IsAlive() const;
-  void TakeDamage();
+  void TakeDamage(double damage);
   QPixmap GetPixmap() const override = 0;
 
  public:
@@ -22,7 +22,7 @@ class Vehicle : public GameObject {
   void mouseMoveEvent(QMouseEvent* event);
 
  signals:
-  void Shoot(Vec2f position, Vec2f orientation);
+  void Shoot(Vec2f position, Vec2f orientation, double speed, double damage);
 
  protected:
   bool is_shooting_ = false;

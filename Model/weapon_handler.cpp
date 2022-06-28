@@ -12,9 +12,9 @@ void WeaponHandler::Update() {
     for (auto vehicle : *vehicles_) {
       Vec2f b_pos = (*bullets_)[i]->GetPosition();
       Vec2f s_pos = vehicle->GetPosition();
-      if (std::hypot(b_pos.GetX() - s_pos.GetX(), b_pos.GetY() - s_pos.GetY()) < soldier_radius) {
+      if (std::hypot(b_pos.GetX() - s_pos.GetX(), b_pos.GetY() - s_pos.GetY()) < vehicle_radius) {
         if (vehicle->IsAlive()) {
-          vehicle->TakeDamage();
+          vehicle->TakeDamage((*bullets_)[i]->GetDamage());
           bullets_->erase(bullets_->begin() + i);
           i--;
           break;
@@ -36,8 +36,8 @@ void WeaponHandler::Update() {
   }
 }
 
-void WeaponHandler::AddBullet(Vec2f position, Vec2f orientation) {
-  auto* bullet = new Bullet(position, orientation);
+void WeaponHandler::AddBullet(Vec2f position, Vec2f orientation, double speed, double damage) {
+  auto* bullet = new Bullet(position, orientation, speed, damage);
   bullets_->push_back(bullet);
 }
 

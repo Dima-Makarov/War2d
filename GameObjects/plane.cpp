@@ -31,7 +31,7 @@ void Plane::Update(int millis) {
   if (is_shooting_) {
     if (!recoil_timer.isActive()) {
       recoil_timer.start(kRecoilTime * 1000);
-      Shoot(position_ + orientation_ * 20, orientation_);
+      Shoot(position_ + orientation_ * 20, orientation_, 500, 5);
     }
   }
 }

@@ -1,12 +1,10 @@
 
 #include "model.h"
 
-Model::Model(int width, int height) : weapon_handler_(&vehicles_, &bullets_),
+Model::Model(int, int) : weapon_handler_(&vehicles_, &bullets_),
                                       tank_(Vec2f(100, 100), Vec2f(1, 0)),
                                       plane_(Vec2f(100, 400), Vec2f(1, 0)),
                                       ship_(Vec2f(100, 700), Vec2f(1, 0)) {
-  width = 1500;
-  height = 700;
   tanks_.push_back(&tank_);
   planes_.push_back(&plane_);
   ships_.push_back(&ship_);

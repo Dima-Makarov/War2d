@@ -2,7 +2,7 @@
 
 Tank::Tank(const Vec2f& position, const Vec2f& orientation)
     : Vehicle(position, orientation),
-      turret_orientation_(orientation_) {
+      turret_orientation_(orientation) {
 }
 
 QPixmap Tank::GetPixmap() const {
@@ -75,7 +75,7 @@ void Tank::Update(int millis) {
   if (is_shooting_) {
     if (!recoil_timer.isActive()) {
       recoil_timer.start(kRecoilTime * 1000);
-      Shoot(position_ + turret_orientation_ * 20, turret_orientation_);
+      Shoot(position_ + turret_orientation_ * 20, turret_orientation_, 900, 20);
     }
   }
 }
