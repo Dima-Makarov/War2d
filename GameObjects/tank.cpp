@@ -27,6 +27,7 @@ void Tank::Update(int millis) {
     angle_to_rotate = kTurretAngularRotatingSpeed / 1'000 * millis * std::abs(angle) / M_PI * 12;
   }
   turret_orientation_.Rotate(angle > 0 ? angle_to_rotate : -angle_to_rotate);
+
   if (!up_pressed_ && !down_pressed_) {
     if (std::abs(speed_) < 1) {
       speed_ = 0;
@@ -36,6 +37,7 @@ void Tank::Update(int millis) {
       speed_ += kForwardAcceleration * millis / 1000;
     }
   }
+
   if (up_pressed_) {
     if (speed_ < 0) {
       speed_ += kForwardAcceleration * millis / 1000;
