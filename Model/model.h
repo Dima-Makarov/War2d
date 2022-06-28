@@ -25,6 +25,7 @@ class Model : public QObject {
   Tank tank_;
   Plane plane_;
   Ship ship_;
+  std::vector<Vehicle*> vehicles_;
   std::vector<Tank*> tanks_;
   std::vector<Plane*> planes_;
   std::vector<Ship*> ships_;

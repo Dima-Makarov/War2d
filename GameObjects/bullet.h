@@ -8,11 +8,11 @@
 
 class Bullet : public GameObject {
  public:
-  Bullet(const Vec2f& position, const Vec2f& orientation);
+  Bullet(const Vec2f& position, const Vec2f& orientation, double speed, double damage);
   void Update(int millis) override;
   QPixmap GetPixmap() const override;
-
+  double GetDamage() const;
  private:
-  double speed_ = 300;
-  double damage_ = 20;
+  double speed_;
+  double damage_;
 };

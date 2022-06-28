@@ -2,46 +2,19 @@
 #include <iostream>
 #include "weapon_handler.h"
 
-WeaponHandler::WeaponHandler(std::vector<Tank*>* tanks,
-                             std::vector<Plane*>* planes,
-                             std::vector<Ship*>* ships,
+WeaponHandler::WeaponHandler(std::vector<Vehicle*>* vehicles,
                              std::vector<Bullet*>* bullets)
-    : QObject(nullptr), tanks_(tanks), planes_(planes), ships_(ships), bullets_(bullets) {
+    : QObject(nullptr), vehicles_(vehicles), bullets_(bullets) {
 }
 
 void WeaponHandler::Update() {
   for (size_t i = 0 ; i < bullets_->size() ; i++) {
-    for (auto tank : *tanks_) {
+    for (auto vehicle : *vehicles_) {
       Vec2f b_pos = (*bullets_)[i]->GetPosition();
-      Vec2f s_pos = tank->GetPosition();
-      if (std::hypot(b_pos.GetX() - s_pos.GetX(), b_pos.GetY() - s_pos.GetY()) < soldier_radius) {
-        if (tank->IsAlive()) {
-          tank->TakeDamage();
-          bullets_->erase(bullets_->begin() + i);
-          i--;
-          break;
-        }
-      }
-    }
-
-    for (auto plane : *planes_) {
-      Vec2f b_pos = (*bullets_)[i]->GetPosition();
-      Vec2f s_pos = plane->GetPosition();
-      if (std::hypot(b_pos.GetX() - s_pos.GetX(), b_pos.GetY() - s_pos.GetY()) < soldier_radius) {
-        if (plane->IsAlive()) {
-          plane->TakeDamage();
-          bullets_->erase(bullets_->begin() + i);
-          i--;
-          break;
-        }
-      }
-    }
-    for (auto ship : *ships_) {
-      Vec2f b_pos = (*bullets_)[i]->GetPosition();
-      Vec2f s_pos = ship->GetPosition();
-      if (std::hypot(b_pos.GetX() - s_pos.GetX(), b_pos.GetY() - s_pos.GetY()) < soldier_radius) {
-        if (ship->IsAlive()) {
-          ship->TakeDamage();
+      Vec2f s_pos = vehicle->GetPosition();
+      if (std::hypot(b_pos.GetX() - s_pos.GetX(), b_pos.GetY() - s_pos.GetY()) < vehicle_radius) {
+        if (vehicle->IsAlive()) {
+          vehicle->TakeDamage((*bullets_)[i]->GetDamage());
           bullets_->erase(bullets_->begin() + i);
           i--;
           break;
@@ -63,20 +36,13 @@ void WeaponHandler::Update() {
   }
 }
 
-void WeaponHandler::AddBullet(Vec2f position, Vec2f orientation) {
-  auto* bullet = new Bullet(position, orientation);
+void WeaponHandler::AddBullet(Vec2f position, Vec2f orientation, double speed, double damage) {
+  auto* bullet = new Bullet(position, orientation, speed, damage);
   bullets_->push_back(bullet);
 }
 
 void WeaponHandler::Connect() {
-  for (auto tank : *tanks_) {
-    connect(tank, &Tank::Shoot, this, &WeaponHandler::AddBullet, Qt::DirectConnection);
-  }
-  for (auto plane : *planes_) {
-    connect(plane, &Plane::Shoot, this, &WeaponHandler::AddBullet, Qt::DirectConnection);
-  }
-
-  for (auto ship : *ships_) {
-    connect(ship, &Ship::Shoot, this, &WeaponHandler::AddBullet, Qt::DirectConnection);
+  for (auto vehicle : *vehicles_) {
+    connect(vehicle, &Vehicle::Shoot, this, &WeaponHandler::AddBullet, Qt::DirectConnection);
   }
 }
