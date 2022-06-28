@@ -21,7 +21,7 @@ find_package(Qt${QT_VERSION} COMPONENTS ${REQUIRED_LIBS} REQUIRED)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-Wall -Wextra -O0")
 
-set(SOURCES main.cpp Model/vec2f.cpp View/view.cpp Model/model.cpp Controller/controller.cpp GameObjects/tank.cpp GameObjects/tank.h GameObjects/bullet.cpp Model/weapon_handler.cpp Model/weapon_handler.h GameObjects/player_tank.cpp GameObjects/player_tank.h GameObjects/game_object.cpp GameObjects/game_object.h GameObjects/bot_tank.cpp GameObjects/bot_tank.h)
+set(SOURCES main.cpp Model/vec2f.cpp View/view.cpp Model/model.cpp Controller/controller.cpp GameObjects/tank.cpp GameObjects/tank.h GameObjects/bullet.cpp Model/weapon_handler.cpp Model/weapon_handler.h GameObjects/game_object.cpp GameObjects/game_object.h GameObjects/plane.cpp GameObjects/plane.h)
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${RESOURCES})
 target_link_libraries(${PROJECT_NAME} ${REQUIRED_LIBS_QUALIFIED})

@@ -2,18 +2,31 @@
 #include <iostream>
 #include "weapon_handler.h"
 
-WeaponHandler::WeaponHandler(std::vector<Tank*>* soldiers, std::vector<Bullet*>* bullets)
-    : QObject(nullptr), soldiers_(soldiers), bullets_(bullets) {
+WeaponHandler::WeaponHandler(std::vector<Tank*>* tanks,std::vector<Plane*>* planes, std::vector<Bullet*>* bullets)
+    : QObject(nullptr), tanks_(tanks), planes_(planes), bullets_(bullets) {
 }
 
 void WeaponHandler::Update() {
   for (size_t i = 0 ; i < bullets_->size() ; i++) {
-    for (auto soldier : *soldiers_) {
+    for (auto tank : *tanks_) {
       Vec2f b_pos = (*bullets_)[i]->GetPosition();
-      Vec2f s_pos = soldier->GetPosition();
+      Vec2f s_pos = tank->GetPosition();
       if (std::hypot(b_pos.GetX() - s_pos.GetX(), b_pos.GetY() - s_pos.GetY()) < soldier_radius) {
-        if (soldier->IsAlive()) {
-          soldier->TakeDamage();
+        if (tank->IsAlive()) {
+          tank->TakeDamage();
+          bullets_->erase(bullets_->begin() + i);
+          i--;
+          break;
+        }
+      }
+    }
+
+    for (auto plane : *planes_) {
+      Vec2f b_pos = (*bullets_)[i]->GetPosition();
+      Vec2f s_pos = plane->GetPosition();
+      if (std::hypot(b_pos.GetX() - s_pos.GetX(), b_pos.GetY() - s_pos.GetY()) < soldier_radius) {
+        if (plane->IsAlive()) {
+          plane->TakeDamage();
           bullets_->erase(bullets_->begin() + i);
           i--;
           break;
@@ -41,7 +54,10 @@ void WeaponHandler::AddBullet(Vec2f position, Vec2f orientation) {
 }
 
 void WeaponHandler::Connect() {
-  for (auto soldier : *soldiers_) {
-    connect(soldier, &Tank::Shoot, this, &WeaponHandler::AddBullet, Qt::DirectConnection);
+  for (auto tank : *tanks_) {
+    connect(tank, &Tank::Shoot, this, &WeaponHandler::AddBullet, Qt::DirectConnection);
+  }
+  for (auto plane : *planes_) {
+    connect(plane, &Plane::Shoot, this, &WeaponHandler::AddBullet, Qt::DirectConnection);
   }
 }

@@ -2,9 +2,9 @@
 #pragma once
 
 #include <QKeyEvent>
+#include <GameObjects/plane.h>
 #include "GameObjects/tank.h"
 #include "weapon_handler.h"
-#include "GameObjects/player_tank.h"
 
 class Model : public QObject {
   Q_OBJECT
@@ -21,7 +21,9 @@ class Model : public QObject {
 
  private:
   WeaponHandler weapon_handler_;
-  PlayerTank player_;
-  std::vector<Tank*> soldiers_;
+  Tank tank_;
+  Plane plane_;
+  std::vector<Tank*> tanks_;
+  std::vector<Plane*> planes_;
   std::vector<Bullet*> bullets_;
 };
