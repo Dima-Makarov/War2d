@@ -2,10 +2,11 @@
 #pragma once
 
 #include <QKeyEvent>
-#include <GameObjects/plane.h>
+#include "GameObjects/plane.h"
 #include "GameObjects/tank.h"
 #include "GameObjects/ship.h"
 #include "weapon_handler.h"
+#include "Model/player.h"
 
 class Model : public QObject {
   Q_OBJECT
@@ -19,6 +20,7 @@ class Model : public QObject {
   void HandleMouseReleaseEvent(QMouseEvent* event);
   void HandleMouseMoveEvent(QMouseEvent* event);
   std::vector<GameObject*> GetGameObjects() const;
+  Vehicle* GetCurrentVehicle() const;
 
  private:
   WeaponHandler weapon_handler_;
@@ -30,4 +32,5 @@ class Model : public QObject {
   std::vector<Plane*> planes_;
   std::vector<Ship*> ships_;
   std::vector<Bullet*> bullets_;
+  Player player_;
 };

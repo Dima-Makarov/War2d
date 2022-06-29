@@ -12,6 +12,7 @@ Model::Model(int, int) : weapon_handler_(&vehicles_, &bullets_),
   vehicles_.push_back(&plane_);
   vehicles_.push_back(&ship_);
   weapon_handler_.Connect();
+  player_.SetCurrentVehicle(&tank_);
 }
 
 void Model::Update(int millis) {
@@ -53,4 +54,8 @@ std::vector<GameObject*> Model::GetGameObjects() const {
     result.push_back(i);
   }
   return result;
+}
+
+Vehicle* Model::GetCurrentVehicle() const {
+  return player_.GetCurrentVehicle();
 }
