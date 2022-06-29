@@ -1,17 +1,18 @@
 
 #pragma once
 
-#include <QWidget>
 #include <QKeyEvent>
+#include <QMainWindow>
 #include <QPainter>
 #include <QTimer>
-#include <QMainWindow>
+#include <QWidget>
+#include <QWheelEvent>
 
-#include "View/view.h"
 #include "Model/model.h"
+#include "View/view.h"
 
 class Controller : public QWidget {
- Q_OBJECT
+  Q_OBJECT
  public:
   Controller();
   ~Controller() override;
@@ -21,6 +22,7 @@ class Controller : public QWidget {
   void mousePressEvent(QMouseEvent* event) override;
   void mouseReleaseEvent(QMouseEvent* event) override;
   void mouseMoveEvent(QMouseEvent* event) override;
+  void wheelEvent(QWheelEvent* event) override;
 
  private:
   void TimerEvent();

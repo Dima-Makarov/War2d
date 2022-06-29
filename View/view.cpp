@@ -16,8 +16,8 @@ void View::Update(QPainter* painter) {
     buffer_painter.translate(pos_x, pos_y);
     buffer_painter.rotate(game_object->GetOrientation().GetAngleDegrees());
     QPixmap pixmap = game_object->GetPixmap();
-    int pix_width = pixmap.width();
-    int pix_height = pixmap.height();
+    int pix_width = pixmap.width() * scale_;
+    int pix_height = pixmap.height() * scale_;
     buffer_painter.drawPixmap(-pix_width / 2, -pix_height / 2, pixmap);
     auto* tank = dynamic_cast<Tank*>(game_object);
     buffer_painter.rotate(-game_object->GetOrientation().GetAngleDegrees());
@@ -36,4 +36,11 @@ void View::Update(QPainter* painter) {
   }
   buffer_painter.end();
   painter->drawPixmap(0,0,buffer);
+}
+
+void View::Zoom(int steps_number) {
+  scale_ += steps_number * scale_step_;
+  if (scale_ > max_scale_) {
+    scale_ = max_scale_;
+  }
 }

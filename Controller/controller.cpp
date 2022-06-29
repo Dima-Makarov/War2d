@@ -8,8 +8,9 @@ Controller::Controller() : QWidget(nullptr),
                            view_(new View(model_)),
                            tick_timer_(),
                            prev_millis_(duration_cast<milliseconds>(
-                               high_resolution_clock::now()
-                                   - high_resolution_clock::from_time_t(0)).count()) {
+                                            high_resolution_clock::now()
+                                            - high_resolution_clock::from_time_t(0))
+                                            .count()) {
   tick_timer_.start(kMillisPerTick);
   connect(&tick_timer_,
           &QTimer::timeout,
@@ -57,4 +58,10 @@ void Controller::mouseReleaseEvent(QMouseEvent* event) {
 
 void Controller::mouseMoveEvent(QMouseEvent* event) {
   model_->HandleMouseMoveEvent(event);
+}
+
+void Controller::wheelEvent(QWheelEvent* event) {
+  int steps_number = event->angleDelta().y() / 120;
+  view_->Zoom(steps_number);
+  repaint();
 }
