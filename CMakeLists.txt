@@ -34,6 +34,8 @@ set(SOURCES
         GameObjects/ship.cpp
         GameObjects/tank.cpp
         GameObjects/vehicle.cpp
+        MainWindow/hangar.cpp
+        MainWindow/main_window.cpp
         Utils/pixmap_loader.cpp
         Utils/vec2f.cpp
 )
