@@ -72,3 +72,7 @@ void Ship::Update(int millis) {
 Vec2f Ship::GetTurretOrientation() {
   return turret_orientation_;
 }
+
+double Ship::GetLength() const {
+  return 200;
+}

@@ -14,6 +14,7 @@ class Vehicle : public GameObject {
   bool IsAlive() const;
   void TakeDamage(double damage);
   QPixmap GetPixmap() const override = 0;
+  double GetLength() const override = 0;
 
  public:
   void keyPressEvent(QKeyEvent* event);

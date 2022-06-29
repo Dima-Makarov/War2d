@@ -12,6 +12,8 @@ class Bullet : public GameObject {
   void Update(int millis) override;
   QPixmap GetPixmap() const override;
   double GetDamage() const;
+  double GetLength() const override;
+
  private:
   double speed_;
   double damage_;
