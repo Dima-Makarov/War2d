@@ -30,5 +30,6 @@ class Controller : public QWidget {
   View* view_;
   QTimer tick_timer_;
   long long prev_millis_;
-  static constexpr int kMillisPerTick = 20;
+  static constexpr int kMillisPerTick = 16;
+  double current_fps_ = 0;
 };

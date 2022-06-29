@@ -26,6 +26,7 @@ void Controller::TimerEvent() {
   auto mseconds = duration_cast<milliseconds>(now - epoch).count();
 
   model_->Update(mseconds - prev_millis_);
+  current_fps_ = 1000.0/(mseconds - prev_millis_);
   prev_millis_ = mseconds;
   repaint();
 }
@@ -33,6 +34,8 @@ void Controller::TimerEvent() {
 void Controller::paintEvent(QPaintEvent*) {
   QPainter qp(this);
   view_->Update(&qp);
+  qp.setPen(QPen(QColor(Qt::white)));
+  qp.drawText(10,10,QString::number(current_fps_));
 }
 
 Controller::~Controller() {

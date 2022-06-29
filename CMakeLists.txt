@@ -21,13 +21,11 @@ find_package(Qt${QT_VERSION} COMPONENTS ${REQUIRED_LIBS} REQUIRED)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-Wall -Wextra -O0")
 
-
 set(SOURCES
         main.cpp
         View/view.cpp
         Model/model.cpp
         Model/player.cpp
-        Model/vec2f.cpp
         Model/weapon_handler.cpp
         Controller/controller.cpp
         GameObjects/bullet.cpp
@@ -36,6 +34,8 @@ set(SOURCES
         GameObjects/ship.cpp
         GameObjects/tank.cpp
         GameObjects/vehicle.cpp
+        Utils/pixmap_loader.cpp
+        Utils/vec2f.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${RESOURCES})

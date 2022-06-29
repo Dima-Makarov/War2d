@@ -4,7 +4,7 @@
 #include <QTimer>
 #include <QKeyEvent>
 #include <QMouseEvent>
-#include <Model/vec2f.h>
+#include <Utils/vec2f.h>
 #include "bullet.h"
 #include "vehicle.h"
 
