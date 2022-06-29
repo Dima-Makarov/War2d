@@ -3,7 +3,7 @@
 
 using namespace std::chrono;
 
-Controller::Controller() : QWidget(nullptr),
+Controller::Controller(QWidget* parent) : QWidget(parent),
                            model_(new Model(window()->width(), window()->height())),
                            view_(new View(model_)),
                            tick_timer_(),
@@ -15,8 +15,9 @@ Controller::Controller() : QWidget(nullptr),
           &QTimer::timeout,
           this,
           &Controller::TimerEvent);
-  resize(1500, 700);
   setMouseTracking(true);
+  setFocusPolicy(Qt::StrongFocus);
+  show();
 }
 
 void Controller::TimerEvent() {

@@ -13,7 +13,7 @@
 class Controller : public QWidget {
  Q_OBJECT
  public:
-  Controller();
+  explicit Controller(QWidget* parent);
   ~Controller() override;
   void keyPressEvent(QKeyEvent*) override;
   void keyReleaseEvent(QKeyEvent*) override;
