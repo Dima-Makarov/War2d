@@ -25,10 +25,10 @@ void WeaponHandler::Update() {
   if (bullets_->size() > 50) {
     for (size_t i = 0 ; i < bullets_->size() ; i++) {
       Vec2f pos = (*bullets_)[i]->GetPosition();
-      if (pos.GetX() > 2000
-          || pos.GetX() < 0
-          || pos.GetY() > 2000
-          || pos.GetY() < 0) {
+      if (pos.GetX() > 20000
+          || pos.GetX() < -20000
+          || pos.GetY() > 20000
+          || pos.GetY() < -20000) {
         bullets_->erase(bullets_->begin() + i);
         i--;
       }

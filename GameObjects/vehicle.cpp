@@ -52,7 +52,7 @@ void Vehicle::mouseReleaseEvent(QMouseEvent* event) {
 }
 
 void Vehicle::mouseMoveEvent(QMouseEvent* event) {
-  mouse_coordinates_ = QPoint(event->pos().x() ,event->pos().y());
+  mouse_coordinates_ = QPoint(event->pos().x() - 750 ,event->pos().y() - 350);
 }
 
 void Vehicle::TakeDamage(double damage) {

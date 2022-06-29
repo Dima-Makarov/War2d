@@ -8,8 +8,9 @@ Controller::Controller(QWidget* parent) : QWidget(parent),
                            view_(new View(model_)),
                            tick_timer_(),
                            prev_millis_(duration_cast<milliseconds>(
-                               high_resolution_clock::now()
-                                   - high_resolution_clock::from_time_t(0)).count()) {
+                                            high_resolution_clock::now()
+                                            - high_resolution_clock::from_time_t(0))
+                                            .count()) {
   tick_timer_.start(kMillisPerTick);
   connect(&tick_timer_,
           &QTimer::timeout,
@@ -34,7 +35,7 @@ void Controller::TimerEvent() {
 void Controller::paintEvent(QPaintEvent*) {
   QPainter qp(this);
   view_->Update(&qp);
-  qp.setPen(QPen(QColor(Qt::white)));
+  qp.setPen(QPen(QColor(Qt::red)));
   qp.drawText(10,10,QString::number(current_fps_));
 }
 
@@ -61,4 +62,10 @@ void Controller::mouseReleaseEvent(QMouseEvent* event) {
 
 void Controller::mouseMoveEvent(QMouseEvent* event) {
   model_->HandleMouseMoveEvent(event);
+}
+
+void Controller::wheelEvent(QWheelEvent* event) {
+  int steps_number = event->angleDelta().y() / 120;
+  view_->Zoom(steps_number);
+  repaint();
 }

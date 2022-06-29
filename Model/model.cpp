@@ -12,6 +12,16 @@ Model::Model(int, int) : weapon_handler_(&vehicles_, &bullets_),
   vehicles_.push_back(&plane_);
   vehicles_.push_back(&ship_);
   weapon_handler_.Connect();
+  auto* player = Player::Instance();
+  if(player->GetCurrentVehicleId() == "tank") {
+    player->SetVehicle(&tank_);
+  }
+  if(player->GetCurrentVehicleId() == "plane") {
+    player->SetVehicle(&plane_);
+  }
+  if(player->GetCurrentVehicleId() == "ship") {
+    player->SetVehicle(&ship_);
+  }
 }
 
 void Model::Update(int millis) {
@@ -25,23 +35,23 @@ void Model::Update(int millis) {
 }
 
 void Model::HandleKeyPressEvent(QKeyEvent* event) {
-  ship_.keyPressEvent(event);
+  Player::Instance()->GetVehicle()->keyPressEvent(event);
 }
 
 void Model::HandleKeyReleaseEvent(QKeyEvent* event) {
-  ship_.keyReleaseEvent(event);
+  Player::Instance()->GetVehicle()->keyReleaseEvent(event);
 }
 
 void Model::HandleMousePressEvent(QMouseEvent* event) {
-  ship_.mousePressEvent(event);
+  Player::Instance()->GetVehicle()->mousePressEvent(event);
 }
 
 void Model::HandleMouseReleaseEvent(QMouseEvent* event) {
-  ship_.mouseReleaseEvent(event);
+  Player::Instance()->GetVehicle()->mouseReleaseEvent(event);
 }
 
 void Model::HandleMouseMoveEvent(QMouseEvent* event) {
-  ship_.mouseMoveEvent(event);
+  Player::Instance()->GetVehicle()->mouseMoveEvent(event);
 }
 
 std::vector<GameObject*> Model::GetGameObjects() const {
@@ -54,3 +64,4 @@ std::vector<GameObject*> Model::GetGameObjects() const {
   }
   return result;
 }
+

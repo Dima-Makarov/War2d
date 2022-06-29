@@ -2,10 +2,11 @@
 #pragma once
 
 #include <QKeyEvent>
-#include <GameObjects/plane.h>
+#include "GameObjects/plane.h"
 #include "GameObjects/tank.h"
 #include "GameObjects/ship.h"
 #include "weapon_handler.h"
+#include "Model/player.h"
 
 class Model : public QObject {
   Q_OBJECT
