@@ -16,8 +16,8 @@ void Tank::Update(int millis) {
   if (!is_alive_) {
     return;
   }
-  Vec2f vector_to_mouse = Vec2f(position_.GetX() - mouse_coordinates_.x(),
-                                position_.GetY() - mouse_coordinates_.y());
+  Vec2f vector_to_mouse = Vec2f(mouse_coordinates_.x(),
+                                mouse_coordinates_.y());
   double angle = vector_to_mouse.AngleBetween(turret_orientation_);
   double angle_to_rotate;
   if (std::abs(angle) > M_PI / 12) {

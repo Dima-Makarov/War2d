@@ -1,22 +1,31 @@
-
 #include "player.h"
 
-size_t Player::GetId() const {
-  return id_;
+Player* Player::instance = nullptr;
+
+QString Player::GetNickname() const {
+  return nickname_;
 }
 
-void Player::SetId(size_t id) {
-  id_ = id;
+void Player::SetNickname(const QString& nickname) {
+  nickname_ = nickname;
 }
 
-Vehicle* Player::GetCurrentVehicle() const {
-  return current_vehicle_;
+QString Player::GetCurrentVehicleId() const {
+  return vehicle_id_;
 }
 
-Vehicle* Player::GetCurrentVehicle() {
-  return current_vehicle_;
+QString Player::GetCurrentVehicleId() {
+  return vehicle_id_;
 }
 
-void Player::SetCurrentVehicle(Vehicle* vehicle) {
-  current_vehicle_ = vehicle;
+void Player::SetCurrentVehicleId(const QString& vehicle_id) {
+  vehicle_id_ = vehicle_id;
+}
+
+Vehicle* Player::GetVehicle() const {
+  return vehicle_;
+}
+
+void Player::SetVehicle(Vehicle* vehicle) {
+  vehicle_ = vehicle;
 }

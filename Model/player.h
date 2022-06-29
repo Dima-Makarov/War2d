@@ -1,21 +1,34 @@
-
 #pragma once
 
 #include "GameObjects/vehicle.h"
 
 class Player {
- public:
+ private:
+  static Player* instance;
   Player() = default;
 
-  size_t GetId() const;
-  void SetId(size_t id);
+ public:
+  Player(const Player&) = delete;
+  Player& operator=(Player&) = delete;
 
-  Vehicle* GetCurrentVehicle() const;
-  Vehicle* GetCurrentVehicle();
-  void SetCurrentVehicle(Vehicle* vehicle);
+ public:
+  static Player* Instance() {
+    if (!instance)
+      instance = new Player();
+    return instance;
+  }
+
+  QString GetNickname() const;
+  void SetNickname(const QString& nickname);
+  QString GetCurrentVehicleId() const;
+  QString GetCurrentVehicleId();
+  void SetCurrentVehicleId(const QString& id);
+  Vehicle* GetVehicle() const;
+  void SetVehicle(Vehicle* vehicle);
 
  private:
-  size_t id_ = 0;
-  Vehicle* current_vehicle_ = nullptr;
+  QString nickname_ = "not_set";
+  QString vehicle_id_ = "tank";
+  Vehicle* vehicle_ = nullptr;
 };
 

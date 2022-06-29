@@ -35,7 +35,7 @@ void Controller::TimerEvent() {
 void Controller::paintEvent(QPaintEvent*) {
   QPainter qp(this);
   view_->Update(&qp);
-  qp.setPen(QPen(QColor(Qt::white)));
+  qp.setPen(QPen(QColor(Qt::red)));
   qp.drawText(10,10,QString::number(current_fps_));
 }
 
