@@ -42,12 +42,10 @@ void Vec2f::Rotate(double radians) {
 }
 
 double Vec2f::AngleBetween(Vec2f const& other) const {
-  Vec2f this_normalized = *this;
-  this_normalized.Normalize();
-  Vec2f other_normalized = other;
-  other_normalized.Normalize();
-  return this_normalized.y_ * other_normalized.x_
-      - this_normalized.x_ * other_normalized.y_;
+  double dot = this->x_ * other.x_ + this->y_ * other.y_;
+  double det = ((other.x_ * this->y_) - (other.y_ * this->x_));
+  double angle = atan2(det, dot);
+  return angle;
 }
 
 Vec2f Vec2f::GetPerpendicular() const {

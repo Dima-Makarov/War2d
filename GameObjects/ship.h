@@ -14,7 +14,6 @@ class Ship : public Vehicle {
   Ship(const Vec2f& position, const Vec2f& orientation);
 
   void Update(int millis) override;
-  Vec2f GetTurretOrientation();
   QPixmap GetPixmap() const override;
   double GetLength() const override;
 
@@ -24,8 +23,6 @@ class Ship : public Vehicle {
   static constexpr double kForwardAcceleration = 2; // m/s^2
   static constexpr double kMaxSpeed = 100/3.6; // m/s
   static constexpr double kRecoilTime = 4; // s
-
-  Vec2f turret_orientation_;
 };
 
 

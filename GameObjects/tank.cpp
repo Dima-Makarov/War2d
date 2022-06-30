@@ -1,8 +1,8 @@
 #include "tank.h"
 
 Tank::Tank(const Vec2f& position, const Vec2f& orientation)
-    : Vehicle(position, orientation),
-      turret_orientation_(orientation) {
+    : Vehicle(position, orientation) {
+  turrets_.emplace_back(PixmapLoader::Instance()->tank_turret, Vec2f(0, 0), orientation_, 12);
 }
 
 QPixmap Tank::GetPixmap() const {
@@ -18,14 +18,16 @@ void Tank::Update(int millis) {
   }
   Vec2f vector_to_mouse = Vec2f(mouse_coordinates_.x(),
                                 mouse_coordinates_.y());
-  double angle = vector_to_mouse.AngleBetween(turret_orientation_);
+  double angle = vector_to_mouse.AngleBetween(turrets_[0].orientation);
   double angle_to_rotate;
   if (std::abs(angle) > M_PI / 12) {
     angle_to_rotate = kTurretAngularRotatingSpeed / 1'000 * millis;
   } else {
     angle_to_rotate = kTurretAngularRotatingSpeed / 1'000 * millis * std::abs(angle) / M_PI * 12;
   }
-  turret_orientation_.Rotate(angle > 0 ? angle_to_rotate : -angle_to_rotate);
+  for (auto& turret : turrets_) {
+    turret.orientation.Rotate(angle > 0 ? angle_to_rotate : -angle_to_rotate);
+  }
 
   if (!up_pressed_ && !down_pressed_) {
     if (std::abs(speed_) < 1) {
@@ -63,25 +65,35 @@ void Tank::Update(int millis) {
 
   if (left_pressed_) {
     orientation_.Rotate(-kHullAngularRotatingSpeed * millis / 1000);
-    turret_orientation_.Rotate(-kHullAngularRotatingSpeed * millis / 1000);
+    for (auto& turret : turrets_) {
+      turret.orientation.Rotate(-kHullAngularRotatingSpeed * millis / 1000);
+    }
   }
 
   if (right_pressed_) {
     orientation_.Rotate(kHullAngularRotatingSpeed * millis / 1000);
-    turret_orientation_.Rotate(kHullAngularRotatingSpeed * millis / 1000);
+    for (auto& turret : turrets_) {
+      turret.orientation.Rotate(kHullAngularRotatingSpeed * millis / 1000);
+    }
+  }
+
+  for (auto& turret : turrets_) {
+    turret.offset = turret.initial_offset;
+    turret.offset.Rotate(orientation_.AngleBetween(Vec2f(1, 0)));
   }
 
   position_ += orientation_ * speed_ * (static_cast<double>(millis) / 1000);
   if (is_shooting_) {
     if (!recoil_timer.isActive()) {
       recoil_timer.start(kRecoilTime * 1000);
-      Shoot(position_ + turret_orientation_ * 20, turret_orientation_, 900, 20);
+      for (auto& turret : turrets_) {
+        Shoot(position_ + turret.offset + turret.orientation * 20,
+              turret.orientation,
+              900,
+              20);
+      }
     }
   }
-}
-
-Vec2f Tank::GetTurretOrientation() {
-  return turret_orientation_;
 }
 
 double Tank::GetLength() const {

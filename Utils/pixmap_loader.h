@@ -21,7 +21,8 @@ class PixmapLoader {
   }
 
   const QPixmap tank = QPixmap("../Pictures/tank");
-  const QPixmap turret = QPixmap("../Pictures/turret");
+  const QPixmap tank_turret = QPixmap("../Pictures/tank_turret");
+  const QPixmap ship_turret = QPixmap("../Pictures/ship_turret");
   const QPixmap plane = QPixmap("../Pictures/plane");
   const QPixmap ship = QPixmap("../Pictures/ship");
   const QPixmap bullet = QPixmap("../Pictures/bullet");
