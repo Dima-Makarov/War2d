@@ -14,6 +14,7 @@ class Plane : public Vehicle {
 
   void Update(int millis) override;
   QPixmap GetPixmap() const override;
+  double GetLength() const override;
 
  private:
   static constexpr double kAngularRotatingSpeed = 50.0 / 360 * 2 * M_PI; // rad/s

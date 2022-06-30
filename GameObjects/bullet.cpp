@@ -16,3 +16,7 @@ QPixmap Bullet::GetPixmap() const {
 double Bullet::GetDamage() const {
   return damage_;
 }
+
+double Bullet::GetLength() const {
+  return 0.5;
+}

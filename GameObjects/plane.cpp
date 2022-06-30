@@ -35,3 +35,7 @@ void Plane::Update(int millis) {
     }
   }
 }
+
+double Plane::GetLength() const {
+  return 19.4;
+}

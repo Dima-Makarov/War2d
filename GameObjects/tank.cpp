@@ -83,3 +83,7 @@ void Tank::Update(int millis) {
 Vec2f Tank::GetTurretOrientation() {
   return turret_orientation_;
 }
+
+double Tank::GetLength() const {
+  return 7.9;
+}
