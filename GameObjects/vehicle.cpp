@@ -69,3 +69,7 @@ bool Vehicle::IsAlive() const {
 double Vehicle::GetHp() const {
   return hp_;
 }
+
+std::vector<Vehicle::TurretData> Vehicle::GetTurrets() const {
+  return turrets_;
+}

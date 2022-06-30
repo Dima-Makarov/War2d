@@ -8,6 +8,16 @@
 class Vehicle : public GameObject {
  Q_OBJECT
  public:
+  struct TurretData {
+    TurretData(const QPixmap& pixmap, const Vec2f& offset_from_center, const Vec2f& orientation, double length_)
+        : pixmap(pixmap), initial_offset(offset_from_center), offset(initial_offset), orientation(orientation), length(length_) {}
+    QPixmap pixmap;
+    Vec2f initial_offset;
+    Vec2f offset;
+    Vec2f orientation;
+    double length;
+  };
+
   Vehicle(Vec2f position, Vec2f orientation);
   void Update(int millis) override = 0;
   double GetHp() const;
@@ -15,6 +25,7 @@ class Vehicle : public GameObject {
   void TakeDamage(double damage);
   QPixmap GetPixmap() const override = 0;
   double GetLength() const override = 0;
+  virtual std::vector<TurretData> GetTurrets() const;
 
  public:
   void keyPressEvent(QKeyEvent* event);
@@ -37,7 +48,5 @@ class Vehicle : public GameObject {
   double hp_ = 100;
   double speed_ = 0;
   bool is_alive_ = true;
+  std::vector<TurretData> turrets_;
 };
-
-
-

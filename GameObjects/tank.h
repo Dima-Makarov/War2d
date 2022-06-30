@@ -14,7 +14,6 @@ class Tank : public Vehicle {
   Tank(const Vec2f& position, const Vec2f& orientation);
 
   void Update(int millis) override;
-  Vec2f GetTurretOrientation();
   QPixmap GetPixmap() const override;
   double GetLength() const override;
 
@@ -24,8 +23,6 @@ class Tank : public Vehicle {
   static constexpr double kForwardAcceleration = 10; // m/s^2
   static constexpr double kMaxSpeed = 50/3.6; // m/s
   static constexpr double kRecoilTime = 1; // s
-
-  Vec2f turret_orientation_;
 };
 
 
