@@ -3,9 +3,9 @@
 
 Ship::Ship(const Vec2f& position, const Vec2f& orientation)
     : Vehicle(position, orientation) {
-  turrets_.emplace_back(PixmapLoader::Instance()->ship_turret, Vec2f(-47, 0), orientation_, 30);
-  turrets_.emplace_back(PixmapLoader::Instance()->ship_turret, Vec2f(46, 0), orientation_, 30);
-  turrets_.emplace_back(PixmapLoader::Instance()->ship_turret, Vec2f(24, 0), orientation_, 30);
+  turrets_.emplace_back(PixmapLoader::Instance()->ship_turret, Vec2f(-47, 0), orientation_, 30, 20);
+  turrets_.emplace_back(PixmapLoader::Instance()->ship_turret, Vec2f(46, 0), orientation_, 30, 20);
+  turrets_.emplace_back(PixmapLoader::Instance()->ship_turret, Vec2f(24, 0), orientation_, 30, 20);
 }
 
 QPixmap Ship::GetPixmap() const {
@@ -79,7 +79,7 @@ void Ship::Update(int millis) {
     if (!recoil_timer.isActive()) {
       recoil_timer.start(kRecoilTime * 1000);
       for (auto& turret : turrets_) {
-        Shoot(position_ + turret.offset + turret.orientation * 20, turret.orientation, 800, 50);
+        Shoot(position_ + turret.offset + turret.orientation * 20, turret.orientation, 300, 50, turret.bullet_length);
       }
     }
   }

@@ -9,13 +9,24 @@ class Vehicle : public GameObject {
  Q_OBJECT
  public:
   struct TurretData {
-    TurretData(const QPixmap& pixmap, const Vec2f& offset_from_center, const Vec2f& orientation, double length_)
-        : pixmap(pixmap), initial_offset(offset_from_center), offset(initial_offset), orientation(orientation), length(length_) {}
+    TurretData(const QPixmap& pixmap,
+               const Vec2f& offset_from_center,
+               const Vec2f& orientation,
+               double length_,
+               double bullet_length_)
+        : pixmap(pixmap),
+          initial_offset(offset_from_center),
+          offset(initial_offset),
+          orientation(orientation),
+          length(length_),
+          bullet_length(bullet_length_) {}
+
     QPixmap pixmap;
     Vec2f initial_offset;
     Vec2f offset;
     Vec2f orientation;
     double length;
+    double bullet_length;
   };
 
   Vehicle(Vec2f position, Vec2f orientation);
@@ -35,7 +46,7 @@ class Vehicle : public GameObject {
   void mouseMoveEvent(QMouseEvent* event);
 
  signals:
-  void Shoot(Vec2f position, Vec2f orientation, double speed, double damage);
+  void Shoot(Vec2f position, Vec2f orientation, double speed, double damage, double bullet_length);
 
  protected:
   bool is_shooting_ = false;

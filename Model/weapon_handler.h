@@ -16,6 +16,10 @@ class WeaponHandler : public QObject {
  private:
   std::vector<Vehicle*>* vehicles_;
   std::vector<Bullet*>* bullets_;
-  void AddBullet(Vec2f position, Vec2f orientation, double speed, double damage);
+  void AddBullet(Vec2f position,
+                 Vec2f orientation,
+                 double speed,
+                 double damage,
+                 double bullet_length);
   double vehicle_radius = 20;
 };
