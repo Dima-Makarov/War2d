@@ -20,7 +20,7 @@ class Plane : public Vehicle {
   static constexpr double kAngularRotatingSpeed = 50.0 / 360 * 2 * M_PI; // rad/s
   static constexpr double kForwardAcceleration = 30; // m/s^2
   static constexpr double kMaxSpeed = 500/3.6; // m/s
-  static constexpr double kRecoilTime = 0.1; // s
+  static constexpr double kRecoilTime = 0.05; // s
 };
 
 

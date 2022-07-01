@@ -36,8 +36,8 @@ void WeaponHandler::Update() {
   }
 }
 
-void WeaponHandler::AddBullet(Vec2f position, Vec2f orientation, double speed, double damage) {
-  auto* bullet = new Bullet(position, orientation, speed, damage);
+void WeaponHandler::AddBullet(Vec2f position, Vec2f orientation, double speed, double damage, double bullet_length) {
+  auto* bullet = new Bullet(position, orientation, speed, damage, bullet_length);
   bullets_->push_back(bullet);
 }
 

@@ -19,4 +19,9 @@ class View {
  private:
   Model* model_;
   double scale_ = 1;
+  void DrawTurrets(QPainter& buffer_painter, const Vehicle* vehicle) const;
+  void DrawScaledPixmap(QPainter& buffer_painter,
+                        const Vec2f& orientation,
+                        const QPixmap& pixmap,
+                        double length) const;
 };

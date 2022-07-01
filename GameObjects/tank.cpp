@@ -2,7 +2,7 @@
 
 Tank::Tank(const Vec2f& position, const Vec2f& orientation)
     : Vehicle(position, orientation) {
-  turrets_.emplace_back(PixmapLoader::Instance()->tank_turret, Vec2f(0, 0), orientation_, 12);
+  turrets_.emplace_back(PixmapLoader::Instance()->tank_turret, Vec2f(0, 0), orientation_, 12, 10);
 }
 
 QPixmap Tank::GetPixmap() const {
@@ -89,8 +89,9 @@ void Tank::Update(int millis) {
       for (auto& turret : turrets_) {
         Shoot(position_ + turret.offset + turret.orientation * 20,
               turret.orientation,
-              900,
-              20);
+              200,
+              20,
+              turret.bullet_length);
       }
     }
   }
